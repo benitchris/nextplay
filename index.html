@@ -25,8 +25,10 @@ body{font-family:'Outfit',system-ui,sans-serif;background:var(--navy);color:var(
 /* ── NAV ── */
 header{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 nav{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:1300px;margin:auto;padding:0 5%}
-.nav-logo{display:flex;align-items:center;text-decoration:none}
-.nav-logo img{height:46px;object-fit:contain}
+.nav-logo{display:flex;align-items:center;text-decoration:none;gap:0}
+.nav-logo-wrap{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d1525,#131929);border:1.5px solid rgba(21,101,232,.4);border-radius:12px;padding:5px 10px;box-shadow:0 0 18px rgba(21,101,232,.2);transition:all .3s}
+.nav-logo-wrap:hover{border-color:rgba(21,101,232,.7);box-shadow:0 0 28px rgba(21,101,232,.4)}
+.nav-logo-wrap img{height:38px;object-fit:contain;display:block}
 .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
 .nav-links a{color:var(--gray);text-decoration:none;font-weight:500;font-size:.95rem;transition:color .2s}
 .nav-links a:hover{color:var(--white)}
@@ -63,9 +65,11 @@ nav{display:flex;align-items:center;justify-content:space-between;height:68px;ma
 .btn-wa:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(37,211,102,.5)}
 .hero-visual{display:flex;align-items:center;justify-content:center;position:relative}
 /* Logo badge */
-.logo-badge{width:min(300px,80%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 35%,#1a2540,#0a0e1a);border:2px solid transparent;background-clip:padding-box;position:relative;display:flex;align-items:center;justify-content:center;animation:float 4s ease-in-out infinite;box-shadow:0 0 0 2px rgba(21,101,232,.5),0 0 60px rgba(21,101,232,.35),0 0 120px rgba(34,197,94,.15),inset 0 0 40px rgba(21,101,232,.08)}
-.logo-badge::before{content:'';position:absolute;inset:-2px;border-radius:50%;background:linear-gradient(135deg,#1565e8,#22c55e,#f97316,#1565e8);z-index:-1;animation:spin 6s linear infinite}
-.logo-badge img{width:80%;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(21,101,232,.6))}
+.logo-badge-wrap{position:relative;width:min(320px,88%);display:flex;align-items:center;justify-content:center;animation:float 4s ease-in-out infinite}
+.logo-badge-ring{position:absolute;inset:0;border-radius:50%;padding:3px;background:linear-gradient(135deg,#1565e8 0%,#22c55e 40%,#f97316 70%,#1565e8 100%)}
+.logo-badge-ring-inner{width:100%;height:100%;border-radius:50%;background:var(--navy)}
+.logo-badge-img{position:relative;z-index:2;width:100%;padding:22px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 40% 35%,#16203a 0%,#0a0e1a 100%);border-radius:50%;border:2px solid rgba(255,255,255,.05);box-shadow:0 0 60px rgba(21,101,232,.4),0 0 120px rgba(34,197,94,.15),inset 0 2px 20px rgba(21,101,232,.1)}
+.logo-badge-img img{width:100%;object-fit:contain;filter:drop-shadow(0 2px 16px rgba(21,101,232,.7))}
 .hero-float-cards{position:absolute;right:-20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px}
 .fcard{background:rgba(19,25,41,.92);border:1px solid var(--border);border-radius:14px;padding:12px 18px;text-align:center;backdrop-filter:blur(12px);animation:float 5s ease-in-out infinite}
 .fcard:nth-child(2){animation-delay:1s}.fcard:nth-child(3){animation-delay:2s}
@@ -256,8 +260,10 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
 <!-- ═══ HEADER ═══ -->
 <header>
   <nav>
-    <a href="#" class="nav-logo" id="home-link">
-      <img src="logo.png" alt="NextPlay250" />
+    <a href="#home" class="nav-logo" id="home-link">
+      <div class="nav-logo-wrap">
+        <img src="logo.png" alt="NextPlay250" />
+      </div>
     </a>
     <ul class="nav-links">
       <li><a href="#shop">Jerseys</a></li>
@@ -310,8 +316,10 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       </div>
     </div>
     <div class="hero-visual">
-      <div class="logo-badge">
-        <img src="logo.png" alt="NextPlay250" />
+      <div class="logo-badge-wrap">
+        <div class="logo-badge-img">
+          <img src="logo.png" alt="NextPlay250" />
+        </div>
       </div>
       <div class="hero-float-cards">
         <div class="fcard"><div class="fn" id="hero-count">0</div><div class="fl">Jerseys</div></div>
@@ -687,7 +695,23 @@ function renderAdmin() {
 function bindAll() {
   document.getElementById('ham-btn').onclick = () => document.getElementById('mob-nav').classList.add('open');
   document.getElementById('mob-close').onclick = () => document.getElementById('mob-nav').classList.remove('open');
-  document.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', () => document.getElementById('mob-nav').classList.remove('open')));
+
+  // Nav links that go to #shop — reset filter + re-render each time
+  document.querySelectorAll('a[href="#shop"]').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('mob-nav').classList.remove('open');
+      resetShop();
+    });
+  });
+  document.querySelectorAll('.mob-link').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('mob-nav').classList.remove('open'));
+  });
+
+  // Re-render shop whenever URL hash changes to #shop
+  window.addEventListener('hashchange', () => {
+    if (location.hash === '#shop') resetShop();
+  });
+
   document.getElementById('faq-link').addEventListener('click', e => { e.preventDefault(); openAuth(); });
   document.getElementById('auth-go').onclick = doAuth;
   document.getElementById('auth-cancel').onclick = closeAuth;
@@ -706,6 +730,16 @@ function bindAll() {
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
     ch.classList.add('on'); activeCat = ch.dataset.cat; renderShop();
   });
+}
+
+// Reset search + filter then re-render
+function resetShop() {
+  document.getElementById('search-inp').value = '';
+  activeCat = 'all';
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  const allChip = document.querySelector('.chip[data-cat="all"]');
+  if (allChip) allChip.classList.add('on');
+  renderShop();
 }
 
 /* ── AUTH ── */
