@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NextPlay250 – Authentic Jersey Plug Rwanda 💯👕</title>
+  <meta name="description" content="NextPlay250 – Rwanda's #1 Authentic Jersey Plug. 100% genuine football & sports jerseys. Cash on delivery. Nationwide Rwanda & worldwide shipping." />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --navy:#0a0e1a;--navy2:#101628;--blue:#1565e8;--blue-l:#3b82f6;
+  --green:#22c55e;--green-d:#16a34a;--red:#ef4444;--orange:#f97316;
+  --white:#fff;--gray:#94a3b8;--card-bg:#131929;
+  --border:rgba(255,255,255,0.08);--glow-b:rgba(21,101,232,.35);
+  --glow-g:rgba(34,197,94,.35);--radius:16px;--shadow:0 8px 40px rgba(0,0,0,.45)
+}
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--navy);color:var(--white);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+
+/* ── NAV ── */
+header{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:1300px;margin:auto;padding:0 5%}
+.nav-logo{display:flex;align-items:center;text-decoration:none}
+.nav-logo img{height:46px;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{color:var(--gray);text-decoration:none;font-weight:500;font-size:.95rem;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.btn-wa-nav{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#25d366,#128c5e);color:#fff!important;border-radius:10px;padding:9px 18px;font-weight:700;font-size:.88rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 18px rgba(37,211,102,.3)}
+.btn-wa-nav:hover{transform:translateY(-2px);box-shadow:0 6px 26px rgba(37,211,102,.5)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px}
+
+/* ── MOBILE NAV ── */
+.mob-nav{display:none;position:fixed;inset:0;z-index:500;background:rgba(7,9,15,.98);flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mob-nav.open{display:flex}
+.mob-nav a{color:var(--white);font-size:1.8rem;font-family:'Bebas Neue',sans-serif;text-decoration:none;letter-spacing:1px}
+.mob-close{position:absolute;top:22px;right:5%;background:none;border:none;color:var(--white);font-size:2rem;cursor:pointer}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;min-height:90vh;display:flex;align-items:center;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(21,101,232,.2) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 40% at 85% 80%,rgba(34,197,94,.13) 0%,transparent 60%),var(--navy)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,.022) 61px),
+                   repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.022) 61px)}
+.hero-inner{position:relative;z-index:2;max-width:1300px;margin:auto;padding:80px 5%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(21,101,232,.15);border:1px solid rgba(21,101,232,.4);border-radius:30px;padding:7px 16px;margin-bottom:22px;font-size:.83rem;font-weight:600;color:var(--blue-l);letter-spacing:.5px}
+.hero-tag .dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite}
+.hero h1{font-family:'Bebas Neue','Arial Black',sans-serif;font-size:clamp(3rem,6vw,5.5rem);line-height:1.05;margin-bottom:18px}
+.hero h1 .hl{background:linear-gradient(135deg,var(--blue-l),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.05rem;color:var(--gray);line-height:1.75;margin-bottom:30px;max-width:480px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.hbadge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.86rem;font-weight:500}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--blue),#3b5bdb);color:#fff;border:none;border-radius:var(--radius);padding:14px 28px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;transition:all .3s;box-shadow:0 6px 28px var(--glow-b)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 40px var(--glow-b)}
+.btn-wa{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#25d366,#128c5e);color:#fff;border:none;border-radius:var(--radius);padding:14px 28px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;transition:all .3s;box-shadow:0 6px 28px rgba(37,211,102,.3)}
+.btn-wa:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(37,211,102,.5)}
+.hero-visual{display:flex;align-items:center;justify-content:center;position:relative}
+.hero-logo-img{width:min(340px,90%);animation:float 4s ease-in-out infinite;filter:drop-shadow(0 0 40px rgba(21,101,232,.5)) drop-shadow(0 0 80px rgba(34,197,94,.2))}
+.hero-float-cards{position:absolute;right:-20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px}
+.fcard{background:rgba(19,25,41,.92);border:1px solid var(--border);border-radius:14px;padding:12px 18px;text-align:center;backdrop-filter:blur(12px);animation:float 5s ease-in-out infinite}
+.fcard:nth-child(2){animation-delay:1s}.fcard:nth-child(3){animation-delay:2s}
+.fcard .fn{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;background:linear-gradient(135deg,var(--blue-l),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fcard .fl{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+
+/* ── SECTIONS ── */
+.section{padding:80px 5%}
+.section-inner{max-width:1300px;margin:auto}
+.sec-head{text-align:center;margin-bottom:50px}
+.sec-head h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:12px}
+.sec-head h2 span{background:linear-gradient(135deg,var(--blue-l),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-head p{color:var(--gray);font-size:.97rem;max-width:500px;margin:auto}
+
+/* ── PERKS ── */
+.perks{background:var(--navy2)}
+.perks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.perk{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:30px 24px;position:relative;overflow:hidden;transition:all .35s}
+.perk::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(21,101,232,.08),transparent);opacity:0;transition:opacity .3s}
+.perk:hover{transform:translateY(-5px);border-color:rgba(21,101,232,.4);box-shadow:0 14px 42px rgba(21,101,232,.18)}
+.perk:hover::after{opacity:1}
+.perk-ico{font-size:2.4rem;margin-bottom:16px}
+.perk h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.perk p{color:var(--gray);font-size:.88rem;line-height:1.65}
+
+/* ── SHOP ── */
+.shop{background:var(--navy)}
+.filter-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+.search-wrap{display:flex;align-items:center;gap:10px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:0 16px;flex:1;max-width:350px}
+.search-wrap svg{color:var(--gray);flex-shrink:0}
+.search-wrap input{background:transparent;border:none;outline:none;color:var(--white);font-family:inherit;font-size:.93rem;padding:12px 0;width:100%}
+.search-wrap input::placeholder{color:var(--gray)}
+.filter-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--card-bg);border:1px solid var(--border);color:var(--gray);border-radius:25px;padding:7px 16px;font-size:.83rem;font-weight:500;cursor:pointer;transition:all .22s;font-family:inherit}
+.chip:hover,.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ── JERSEY CARDS ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.jcard{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .35s}
+.jcard:hover{transform:translateY(-6px);border-color:rgba(21,101,232,.4);box-shadow:0 18px 52px rgba(0,0,0,.5)}
+.jcard-img-wrap{position:relative;overflow:hidden}
+.jcard-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:linear-gradient(135deg,#111926,#0d1525);display:block;transition:transform .4s}
+.jcard:hover .jcard-img{transform:scale(1.05)}
+.badge-new{position:absolute;top:11px;left:11px;background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.badge-hot{position:absolute;top:11px;left:11px;background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;font-size:.68rem;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.jcard-body{padding:18px}
+.jclub{font-size:.76rem;color:var(--blue-l);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.jname{font-size:1rem;font-weight:700;margin-bottom:4px;line-height:1.3}
+.jmeta{font-size:.78rem;color:var(--green);font-weight:600;margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap}
+.jmeta span{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:2px 8px}
+.jdesc{font-size:.84rem;color:var(--gray);line-height:1.62;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.jcard-foot{display:flex;align-items:center;justify-content:space-between}
+.jprice{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;background:linear-gradient(135deg,var(--green),var(--blue-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.jprice small{font-family:inherit;font-size:.72rem;font-weight:600;color:var(--gray);-webkit-text-fill-color:var(--gray)}
+.order-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#25d366,#128c5e);color:#fff;border:none;border-radius:10px;padding:10px 15px;font-family:inherit;font-weight:700;font-size:.83rem;cursor:pointer;text-decoration:none;transition:all .3s;box-shadow:0 4px 14px rgba(37,211,102,.25)}
+.order-btn:hover{transform:scale(1.06);box-shadow:0 6px 22px rgba(37,211,102,.45)}
+.order-btn svg{width:15px;height:15px;flex-shrink:0}
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--gray)}
+.empty-state .ei{font-size:4rem;margin-bottom:14px}
+.empty-state h3{color:var(--white);font-size:1.2rem;margin-bottom:6px}
+
+/* ── CONTACT STRIP ── */
+.cstrip{background:linear-gradient(135deg,#101628,#0d1a2e 50%,#0e1f1a);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:52px 5%}
+.cstrip-inner{max-width:900px;margin:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
+.cstrip h2{font-family:'Bebas Neue',sans-serif;font-size:2.1rem}
+.cstrip h2 span{color:var(--green)}
+.cstrip p{color:var(--gray);font-size:.92rem;margin-top:5px}
+
+/* ── FOOTER ── */
+footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28px}
+.footer-inner{max-width:1300px;margin:auto}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:38px}
+.fbrand img{height:44px;margin-bottom:14px;display:block}
+.fbrand p{color:var(--gray);font-size:.86rem;line-height:1.7;max-width:275px}
+.fcol h4{font-weight:700;font-size:.92rem;margin-bottom:14px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.fcol ul li a{color:var(--gray);text-decoration:none;font-size:.86rem;transition:color .2s}
+.fcol ul li a:hover{color:var(--white)}
+.fbot{border-top:1px solid var(--border);padding-top:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fbot p,.fbot a{color:var(--gray);font-size:.8rem;text-decoration:none}
+
+/* ── MODALS ── */
+.overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal-box{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:36px;width:min(440px,94vw);box-shadow:var(--shadow);animation:slideUp .28s ease}
+.modal-box.wide{width:min(580px,96vw);max-height:90vh;overflow-y:auto}
+.modal-box h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;margin-bottom:5px}
+.modal-box>p{color:var(--gray);font-size:.86rem;margin-bottom:22px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:.82rem;font-weight:600;color:var(--gray);margin-bottom:6px}
+.fg input,.fg textarea,.fg select{width:100%;background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--white);font-family:inherit;font-size:.88rem;outline:none;transition:border-color .22s}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--blue)}
+.fg textarea{resize:vertical;min-height:80px}
+.fg select option{background:#131929;color:var(--white)}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.merr{color:var(--red);font-size:.8rem;margin-top:6px;display:none}
+.macts{display:flex;gap:10px;margin-top:10px}
+.mbtn{flex:1;background:linear-gradient(135deg,var(--blue),#3b5bdb);color:#fff;border:none;border-radius:10px;padding:12px;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .25s}
+.mbtn:hover{opacity:.88}
+.mcanc{background:rgba(255,255,255,.06);color:var(--gray);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .25s}
+.mcanc:hover{background:rgba(255,255,255,.1);color:var(--white)}
+.img-drop{width:100%;aspect-ratio:4/3;background:rgba(255,255,255,.04);border:2px dashed rgba(255,255,255,.14);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;cursor:pointer;transition:border-color .25s;overflow:hidden;margin-bottom:14px;position:relative}
+.img-drop:hover{border-color:var(--blue)}
+.img-drop .dico{font-size:2rem}
+.img-drop .dhint{font-size:.82rem;color:var(--gray);text-align:center}
+
+/* ── ADMIN ── */
+#admin-panel{display:none;position:fixed;inset:0;z-index:900;background:var(--navy);overflow-y:auto}
+#admin-panel.open{display:block}
+.adm-hdr{background:rgba(10,14,26,.96);border-bottom:1px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:66px;position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.adm-hdr h1{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;background:linear-gradient(135deg,var(--blue-l),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.adm-body{max-width:1100px;margin:auto;padding:38px 5%}
+.adm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;margin-bottom:34px}
+.astat{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.astat .n{font-family:'Bebas Neue',sans-serif;font-size:2rem;background:linear-gradient(135deg,var(--blue-l),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.astat .l{font-size:.75rem;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.adm-sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.adm-sec-hdr h2{font-family:'Bebas Neue',sans-serif;font-size:1.35rem}
+.btn-add{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--green-d),var(--green));color:#fff;border:none;border-radius:10px;padding:10px 18px;font-family:inherit;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .28s;box-shadow:0 4px 16px var(--glow-g)}
+.btn-add:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--glow-g)}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.adm-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.adm-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#1a2233}
+.adm-card-b{padding:14px}
+.adm-card-b .ac-club{font-size:.72rem;color:var(--blue-l);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.adm-card-b h3{font-weight:700;font-size:.95rem;margin-bottom:2px}
+.adm-card-b .ac-meta{font-size:.76rem;color:var(--green);margin-bottom:4px;font-weight:600}
+.adm-card-b .ac-price{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--green)}
+.adm-acts{display:flex;gap:8px;margin-top:12px}
+.btn-edit{flex:1;background:rgba(21,101,232,.14);border:1px solid rgba(21,101,232,.3);color:var(--blue-l);border-radius:8px;padding:8px;font-family:inherit;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .22s}
+.btn-edit:hover{background:rgba(21,101,232,.28)}
+.btn-del{flex:1;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.22);color:var(--red);border-radius:8px;padding:8px;font-family:inherit;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .22s}
+.btn-del:hover{background:rgba(239,68,68,.24)}
+.btn-close-adm{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--gray);border-radius:10px;padding:8px 16px;font-family:inherit;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .22s}
+.btn-close-adm:hover{color:var(--white);background:rgba(255,255,255,.12)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:28px;right:28px;z-index:3000;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:13px 18px;display:flex;align-items:center;gap:10px;font-size:.88rem;font-weight:500;box-shadow:var(--shadow);transform:translateY(120px);opacity:0;transition:all .38s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:300px}
+#toast.show{transform:translateY(0);opacity:1}
+
+/* ── ANIMATIONS ── */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-visual{display:none}
+  .hero-badges{justify-content:center}
+  .hero-btns{justify-content:center}
+  .ftop{grid-template-columns:1fr;gap:28px}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .btn-wa-nav span{display:none}
+  .filter-bar{flex-direction:column;align-items:stretch}
+  .search-wrap{max-width:100%}
+  .fg-row{grid-template-columns:1fr}
+  .cstrip-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <nav>
+    <a href="#" class="nav-logo" id="home-link">
+      <img src="logo.png" alt="NextPlay250" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#shop">Jerseys</a></li>
+      <li><a href="#why-us">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://wa.me/250781281517?text=Hey%20NextPlay250!%20%F0%9F%91%8B%20I%27d%20like%20to%20browse%20your%20jersey%20collection%20%F0%9F%94%A5"
+       target="_blank" rel="noopener" class="btn-wa-nav" id="nav-wa-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.113 1.523 5.845L.057 23.25l5.565-1.453A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.579-.474-5.095-1.306l-.361-.213-3.301.862.882-3.216-.235-.373A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      <span>Order Now</span>
+    </a>
+    <button class="hamburger" id="ham-btn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-close" id="mob-close">✕</button>
+  <a href="#shop" class="mob-link">Jerseys</a>
+  <a href="#why-us" class="mob-link">Why Us</a>
+  <a href="#contact" class="mob-link">Contact</a>
+  <a href="https://wa.me/250781281517" target="_blank" style="color:#25d366!important">WhatsApp Us</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag"><span class="dot"></span>Rwanda's #1 Certified Jersey Destination</div>
+      <h1>Your Ultimate<br><span class="hl">Authentic</span><br>Jersey Plug 💯</h1>
+      <p class="hero-sub">We bring the game to you — 100% genuine football & sports jerseys, straight to your door. No fakes. No drama. Just pure heat. 🔥</p>
+      <div class="hero-badges">
+        <span class="hbadge">✅ 100% Authentic Jerseys</span>
+        <span class="hbadge">💵 Pay on Delivery — Zero Upfront</span>
+        <span class="hbadge">🇷🇼 Rwanda Nationwide</span>
+        <span class="hbadge">🌍 Ships Worldwide</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#shop" class="btn-primary">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Shop Jerseys
+        </a>
+        <a href="https://wa.me/250781281517?text=Hey%20NextPlay250!%20%F0%9F%91%8B%20I%27d%20like%20to%20see%20your%20jersey%20collection%20%F0%9F%94%A5" target="_blank" rel="noopener" class="btn-wa">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.113 1.523 5.845L.057 23.25l5.565-1.453A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.579-.474-5.095-1.306l-.361-.213-3.301.862.882-3.216-.235-.373A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="logo.png" alt="NextPlay250" class="hero-logo-img" />
+      <div class="hero-float-cards">
+        <div class="fcard"><div class="fn" id="hero-count">0</div><div class="fl">Jerseys</div></div>
+        <div class="fcard"><div class="fn">100%</div><div class="fl">Authentic</div></div>
+        <div class="fcard"><div class="fn">COD</div><div class="fl">Pay on Delivery</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section class="section perks" id="why-us">
+  <div class="section-inner">
+    <div class="sec-head">
+      <h2>Why <span>NextPlay250?</span></h2>
+      <p>We're not just a jersey shop — we're your go-to sports lifestyle plug.</p>
+    </div>
+    <div class="perks-grid">
+      <div class="perk"><div class="perk-ico">💯</div><h3>100% Authentic — Always</h3><p>Every jersey we carry is verified authentic. No replicas, no fakes — just the real deal straight from certified sources. Your credibility starts with us.</p></div>
+      <div class="perk"><div class="perk-ico">💵</div><h3>Pay on Delivery — Zero Upfront Risk</h3><p>Order with complete confidence. You only pay once the jersey is in your hands. Zero upfront, zero risk — just pure peace of mind.</p></div>
+      <div class="perk"><div class="perk-ico">🇷🇼</div><h3>Rwanda Nationwide + 🌍 Worldwide</h3><p>From Kigali to Musanze, Huye to Rubavu — we cover every corner of Rwanda. And yes, we deliver globally too. Wherever you are, we've got you.</p></div>
+      <div class="perk"><div class="perk-ico">⚡</div><h3>Fast & Reliable Delivery</h3><p>We move fast because we know the wait is real. Quick processing, reliable partners, and real-time updates straight to your WhatsApp.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SHOP ═══ -->
+<section class="section shop" id="shop">
+  <div class="section-inner">
+    <div class="sec-head">
+      <h2>Shop <span>Jerseys</span></h2>
+      <p>Browse the collection. Tap "Order" to send a WhatsApp message with the jersey details auto-filled.</p>
+    </div>
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="search-inp" placeholder="Search team, season, kit type…" />
+      </div>
+      <div class="filter-chips" id="chips">
+        <button class="chip on" data-cat="all">All</button>
+        <button class="chip" data-cat="football">Football ⚽</button>
+        <button class="chip" data-cat="basketball">Basketball 🏀</button>
+        <button class="chip" data-cat="rugby">Rugby 🏉</button>
+        <button class="chip" data-cat="other">Other</button>
+      </div>
+    </div>
+    <div class="grid" id="jerseys-grid"></div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT STRIP ═══ -->
+<div class="cstrip" id="contact">
+  <div class="cstrip-inner">
+    <div>
+      <h2>Ready to cop your <span>jersey?</span></h2>
+      <p>Hit us up on WhatsApp — we're always online and ready to hook you up 🏆</p>
+    </div>
+    <a href="https://wa.me/250781281517?text=Hey%20NextPlay250!%20%F0%9F%91%8B%20I%20want%20to%20place%20an%20order.%20What%20do%20you%20have%20available%20right%20now%3F%20%F0%9F%94%A5" target="_blank" rel="noopener" class="btn-wa" id="cta-wa">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.113 1.523 5.845L.057 23.25l5.565-1.453A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.579-.474-5.095-1.306l-.361-.213-3.301.862.882-3.216-.235-.373A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      +250 781 281 517
+    </a>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="ftop">
+      <div class="fbrand">
+        <img src="logo.png" alt="NextPlay250" />
+        <p>Rwanda's most trusted authentic jersey store. Real jerseys, real delivery, real confidence — every single time. 💯👕</p>
+      </div>
+      <div class="fcol">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#shop">Shop Jerseys</a></li>
+          <li><a href="#why-us">Why NextPlay250</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="https://wa.me/250781281517" target="_blank">WhatsApp Us</a></li>
+          <li><a href="#" id="faq-link">FAQ</a></li>
+          <li><a href="#why-us">Delivery Info</a></li>
+          <li><a href="#why-us">Authenticity Guarantee</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <p>© 2025 NextPlay250 · Rwanda's Authentic Jersey Plug 💯👕</p>
+      <a href="https://wa.me/250781281517" target="_blank">+250 781 281 517</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ AUTH MODAL ═══ -->
+<div class="overlay" id="auth-ov">
+  <div class="modal-box">
+    <h2>🔐 FAQ Access</h2>
+    <p>Enter the support code to access the store management panel.</p>
+    <div class="fg">
+      <label for="auth-pw">Support Code</label>
+      <input type="password" id="auth-pw" placeholder="Enter code…" autocomplete="off" />
+      <div class="merr" id="auth-err">Incorrect code. Please try again.</div>
+    </div>
+    <div class="macts">
+      <button class="mbtn" id="auth-go">Confirm</button>
+      <button class="mcanc" id="auth-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL ═══ -->
+<div id="admin-panel">
+  <div class="adm-hdr">
+    <h1>⚙️ NextPlay250 Dashboard</h1>
+    <button class="btn-close-adm" id="adm-close">✕ Close</button>
+  </div>
+  <div class="adm-body">
+    <div class="adm-stats">
+      <div class="astat"><div class="n" id="as-total">0</div><div class="l">Total Jerseys</div></div>
+      <div class="astat"><div class="n" id="as-foot">0</div><div class="l">Football</div></div>
+      <div class="astat"><div class="n" id="as-bball">0</div><div class="l">Basketball</div></div>
+      <div class="astat"><div class="n" id="as-other">0</div><div class="l">Other Sports</div></div>
+    </div>
+    <div class="adm-sec-hdr">
+      <h2>📦 Manage Jerseys</h2>
+      <button class="btn-add" id="adm-add-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Jersey
+      </button>
+    </div>
+    <div class="adm-grid" id="adm-grid"></div>
+  </div>
+</div>
+
+<!-- ═══ ADD/EDIT JERSEY MODAL ═══ -->
+<div class="overlay" id="jersey-ov">
+  <div class="modal-box wide">
+    <h2 id="jm-title">➕ Add New Jersey</h2>
+    <p id="jm-sub">Fill in all details — they appear on the store card and inside the WhatsApp order message.</p>
+
+    <div class="img-drop" id="img-drop">
+      <span class="dico">📸</span>
+      <span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>
+    </div>
+    <input type="file" id="img-file" accept="image/*" style="display:none" />
+
+    <div class="fg"><label for="j-club">Club / Team Name *</label><input type="text" id="j-club" placeholder="e.g. Manchester United, Barcelona…" /></div>
+
+    <div class="fg-row">
+      <div class="fg"><label for="j-season">Season *</label><input type="text" id="j-season" placeholder="e.g. 2026/27" /></div>
+      <div class="fg">
+        <label for="j-kit">Kit Type *</label>
+        <select id="j-kit">
+          <option value="Home">Home</option>
+          <option value="Away">Away</option>
+          <option value="Third">Third</option>
+          <option value="Fourth">Fourth</option>
+          <option value="Goalkeeper">Goalkeeper</option>
+          <option value="Training">Training</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fg-row">
+      <div class="fg">
+        <label for="j-sleeve">Sleeve *</label>
+        <select id="j-sleeve">
+          <option value="Short Sleeves">Short Sleeves</option>
+          <option value="Long Sleeves">Long Sleeves</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="j-cat">Category</label>
+        <select id="j-cat">
+          <option value="football">Football ⚽</option>
+          <option value="basketball">Basketball 🏀</option>
+          <option value="rugby">Rugby 🏉</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fg"><label for="j-desc">Extra Description (optional)</label><textarea id="j-desc" placeholder="Sizes available, special features, condition, edition notes…"></textarea></div>
+    <div class="fg"><label for="j-price">Price (RWF) *</label><input type="number" id="j-price" placeholder="e.g. 26000" min="0" /></div>
+    <div class="fg">
+      <label for="j-badge">Badge Label</label>
+      <select id="j-badge">
+        <option value="">None</option>
+        <option value="new">🟢 New Arrival</option>
+        <option value="hot">🔴 Hot Pick</option>
+      </select>
+    </div>
+
+    <div class="macts">
+      <button class="mbtn" id="j-save">Save Jersey</button>
+      <button class="mcanc" id="j-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div id="toast"><span id="t-ico">✅</span><span id="t-msg">Done!</span></div>
+
+<script>
+/* ══════════════════════════════════
+   NextPlay250 – store logic v2
+   ══════════════════════════════════ */
+const WA   = '250781281517';
+const KEY  = 'np250v3';
+const PASS = 'nextplay250';
+
+let jerseys   = [];
+let editId    = null;
+let imgB64    = null;
+let activeCat = 'all';
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  renderShop();
+  bindAll();
+  countUp('hero-count', jerseys.length);
+});
+
+/* ── DATA ── */
+function loadData() {
+  try { jerseys = JSON.parse(localStorage.getItem(KEY)) || []; } catch { jerseys = []; }
+  if (!jerseys.length) seed();
+}
+function save() { localStorage.setItem(KEY, JSON.stringify(jerseys)); }
+function uid()  { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+function seed() {
+  jerseys = [
+    {
+      id: uid(),
+      club: 'Manchester United',
+      season: '2026/27',
+      kit: 'Third',
+      sleeve: 'Long Sleeves',
+      category: 'football',
+      badge: 'hot',
+      img: 'jerseys/man-utd-2026-third-ls.jpg',
+      price: 26000,
+      desc: 'Adidas Climacool breathable fabric. Off-white colourway with black three-stripe detailing and burgundy accents. Authentic badge and sponsor logos. All sizes available: S · M · L · XL · XXL.'
+    }
+  ];
+  save();
+}
+
+/* ── WA MESSAGE BUILDER ── */
+function buildWAMsg(j) {
+  const kitLine = `${j.season} ${j.kit} Kit | ${j.sleeve}`;
+  const lines = [
+    `Hi NextPlay250! 👋`,
+    ``,
+    `I'd like to order the following jersey:`,
+    ``,
+    `👕 *${j.club}*`,
+    `📅 Season: ${j.season}`,
+    `🏷 Kit: ${j.kit} Kit`,
+    `👔 Sleeve: ${j.sleeve}`,
+    `💵 Price: *${fmt(j.price)} RWF*`,
+    j.desc ? `📝 ${j.desc}` : '',
+    ``,
+    `Please confirm availability, my size & delivery details. Thank you! 🙏`
+  ].filter(l => l !== null);
+  return encodeURIComponent(lines.join('\n'));
+}
+
+/* ── RENDER SHOP ── */
+function renderShop() {
+  const q   = (document.getElementById('search-inp').value || '').toLowerCase().trim();
+  const arr = jerseys.filter(j => {
+    const mc = activeCat === 'all' || j.category === activeCat;
+    const haystack = [j.club, j.season, j.kit, j.sleeve, j.desc || ''].join(' ').toLowerCase();
+    const ms = !q || haystack.includes(q);
+    return mc && ms;
+  });
+  const grid = document.getElementById('jerseys-grid');
+  grid.innerHTML = arr.length ? arr.map(jerseyCard).join('') : `
+    <div class="empty-state">
+      <div class="ei">👕</div>
+      <h3>${q ? 'No results found' : 'No jerseys yet'}</h3>
+      <p>${q ? 'Try a different search term.' : 'New drops incoming — check back soon! 🔥'}</p>
+    </div>`;
+}
+
+function jerseyCard(j) {
+  const waMsg  = buildWAMsg(j);
+  const imgHtml = j.img
+    ? `<img class="jcard-img" src="${j.img}" alt="${esc(j.club)}" loading="lazy" onerror="this.outerHTML=jerseyThumbHTML('${j.category}','${j.club}')" />`
+    : jerseyThumbHTML(j.category, j.club);
+  const badge = j.badge === 'new' ? `<div class="badge-new">New Arrival</div>`
+              : j.badge === 'hot' ? `<div class="badge-hot">🔥 Hot Pick</div>` : '';
+  const waIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.113 1.523 5.845L.057 23.25l5.565-1.453A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.579-.474-5.095-1.306l-.361-.213-3.301.862.882-3.216-.235-.373A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
+  return `
+  <div class="jcard">
+    <div class="jcard-img-wrap">${badge}${imgHtml}</div>
+    <div class="jcard-body">
+      <div class="jclub">${esc(j.club)}</div>
+      <div class="jname">${esc(j.season)} ${esc(j.kit)} Kit</div>
+      <div class="jmeta">
+        <span>${esc(j.sleeve)}</span>
+        <span>${esc(j.kit)}</span>
+      </div>
+      ${j.desc ? `<div class="jdesc">${esc(j.desc)}</div>` : ''}
+      <div class="jcard-foot">
+        <div class="jprice"><small>RWF </small>${fmt(j.price)}</div>
+        <a href="https://wa.me/${WA}?text=${waMsg}" target="_blank" rel="noopener" class="order-btn" aria-label="Order ${j.club} jersey on WhatsApp">
+          ${waIcon} Order
+        </a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function jerseyThumbHTML(category, club) {
+  const colors = { football:'#1565e8', basketball:'#f97316', rugby:'#22c55e', other:'#7c3aed' };
+  const c = colors[category] || '#3b82f6';
+  const initials = (club || '?').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+  return `<div class="jcard-img" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:linear-gradient(135deg,#0d1525,${c}28)">
+    <span style="font-size:2.8rem">👕</span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:${c};letter-spacing:2px">${initials}</span>
+  </div>`;
+}
+
+/* ── ADMIN RENDER ── */
+function renderAdmin() {
+  const cats = { football:0, basketball:0, rugby:0, other:0 };
+  jerseys.forEach(j => { if (cats[j.category] !== undefined) cats[j.category]++; else cats.other++; });
+  document.getElementById('as-total').textContent = jerseys.length;
+  document.getElementById('as-foot').textContent  = cats.football;
+  document.getElementById('as-bball').textContent = cats.basketball;
+  document.getElementById('as-other').textContent = cats.rugby + cats.other;
+  const g = document.getElementById('adm-grid');
+  if (!jerseys.length) {
+    g.innerHTML = `<p style="color:var(--gray);padding:28px;grid-column:1/-1;text-align:center">No jerseys yet. Add your first one above! 👆</p>`;
+    return;
+  }
+  g.innerHTML = jerseys.map(j => {
+    const img = j.img
+      ? `<img src="${j.img}" alt="${esc(j.club)}" onerror="this.style.display='none'" />`
+      : `<div style="width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:#111926;font-size:2.5rem">👕</div>`;
+    return `
+    <div class="adm-card">
+      ${img}
+      <div class="adm-card-b">
+        <div class="ac-club">${esc(j.club)}</div>
+        <h3>${esc(j.season)} ${esc(j.kit)} Kit</h3>
+        <div class="ac-meta">${esc(j.sleeve)}</div>
+        <div class="ac-price">RWF ${fmt(j.price)}</div>
+        <div class="adm-acts">
+          <button class="btn-edit" onclick="editJersey('${j.id}')">✏️ Edit</button>
+          <button class="btn-del" onclick="delJersey('${j.id}')">🗑 Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── BIND ── */
+function bindAll() {
+  document.getElementById('ham-btn').onclick = () => document.getElementById('mob-nav').classList.add('open');
+  document.getElementById('mob-close').onclick = () => document.getElementById('mob-nav').classList.remove('open');
+  document.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', () => document.getElementById('mob-nav').classList.remove('open')));
+  document.getElementById('faq-link').addEventListener('click', e => { e.preventDefault(); openAuth(); });
+  document.getElementById('auth-go').onclick = doAuth;
+  document.getElementById('auth-cancel').onclick = closeAuth;
+  document.getElementById('auth-pw').addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
+  document.getElementById('auth-ov').addEventListener('click', e => { if (e.target === e.currentTarget) closeAuth(); });
+  document.getElementById('adm-close').onclick = closeAdmin;
+  document.getElementById('adm-add-btn').onclick = () => openJModal();
+  document.getElementById('j-save').onclick = saveJersey;
+  document.getElementById('j-cancel').onclick = closeJModal;
+  document.getElementById('jersey-ov').addEventListener('click', e => { if (e.target === e.currentTarget) closeJModal(); });
+  document.getElementById('img-drop').onclick = () => document.getElementById('img-file').click();
+  document.getElementById('img-file').addEventListener('change', handleImg);
+  document.getElementById('search-inp').addEventListener('input', renderShop);
+  document.getElementById('chips').addEventListener('click', e => {
+    const ch = e.target.closest('.chip'); if (!ch) return;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    ch.classList.add('on'); activeCat = ch.dataset.cat; renderShop();
+  });
+}
+
+/* ── AUTH ── */
+function openAuth() {
+  document.getElementById('auth-pw').value = '';
+  document.getElementById('auth-err').style.display = 'none';
+  document.getElementById('auth-ov').classList.add('open');
+  setTimeout(() => document.getElementById('auth-pw').focus(), 80);
+}
+function closeAuth() { document.getElementById('auth-ov').classList.remove('open'); }
+function doAuth() {
+  if (document.getElementById('auth-pw').value === PASS) { closeAuth(); openAdmin(); }
+  else { document.getElementById('auth-err').style.display = 'block'; document.getElementById('auth-pw').value = ''; document.getElementById('auth-pw').focus(); }
+}
+
+/* ── ADMIN ── */
+function openAdmin()  { renderAdmin(); document.getElementById('admin-panel').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeAdmin() { document.getElementById('admin-panel').classList.remove('open'); document.body.style.overflow = ''; renderShop(); countUp('hero-count', jerseys.length); }
+
+/* ── JERSEY MODAL ── */
+function openJModal(j = null) {
+  editId = j ? j.id : null;
+  imgB64 = j ? (j.img || null) : null;
+  document.getElementById('jm-title').textContent = j ? '✏️ Edit Jersey' : '➕ Add New Jersey';
+  document.getElementById('j-club').value   = j ? j.club   : '';
+  document.getElementById('j-season').value = j ? j.season : '';
+  document.getElementById('j-kit').value    = j ? j.kit    : 'Home';
+  document.getElementById('j-sleeve').value = j ? j.sleeve : 'Short Sleeves';
+  document.getElementById('j-cat').value    = j ? j.category : 'football';
+  document.getElementById('j-desc').value   = j ? (j.desc || '') : '';
+  document.getElementById('j-price').value  = j ? j.price  : '';
+  document.getElementById('j-badge').value  = j ? (j.badge || '') : '';
+  document.getElementById('img-file').value = '';
+  setImgPreview(imgB64);
+  document.getElementById('jersey-ov').classList.add('open');
+}
+function closeJModal() { document.getElementById('jersey-ov').classList.remove('open'); editId = null; imgB64 = null; }
+
+function saveJersey() {
+  const club   = document.getElementById('j-club').value.trim();
+  const season = document.getElementById('j-season').value.trim();
+  const kit    = document.getElementById('j-kit').value;
+  const sleeve = document.getElementById('j-sleeve').value;
+  const cat    = document.getElementById('j-cat').value;
+  const desc   = document.getElementById('j-desc').value.trim();
+  const price  = parseInt(document.getElementById('j-price').value, 10);
+  const badge  = document.getElementById('j-badge').value;
+  if (!club || !season || !price || isNaN(price)) { toast('Fill in Club, Season and Price ⚠️', false); return; }
+  const entry = { club, season, kit, sleeve, category:cat, desc, price, badge };
+  if (editId) {
+    const i = jerseys.findIndex(j => j.id === editId);
+    if (i > -1) jerseys[i] = { ...jerseys[i], ...entry, img: imgB64 !== null ? imgB64 : jerseys[i].img };
+    toast('Jersey updated! ✅');
+  } else {
+    jerseys.unshift({ id:uid(), ...entry, img: imgB64 || '' });
+    toast('Jersey added! 🔥');
+  }
+  save(); closeJModal(); renderAdmin();
+}
+
+function editJersey(id) { const j = jerseys.find(j => j.id === id); if (j) openJModal(j); }
+function delJersey(id) {
+  if (!confirm('Delete this jersey? This cannot be undone.')) return;
+  jerseys = jerseys.filter(j => j.id !== id);
+  save(); renderAdmin(); toast('Jersey removed.');
+}
+
+/* ── IMAGE ── */
+function handleImg(e) {
+  const f = e.target.files[0]; if (!f) return;
+  if (f.size > 8 * 1024 * 1024) { toast('Image too large (max 8MB)', false); return; }
+  const r = new FileReader();
+  r.onload = ev => { imgB64 = ev.target.result; setImgPreview(imgB64); };
+  r.readAsDataURL(f);
+}
+function setImgPreview(src) {
+  const d = document.getElementById('img-drop');
+  d.innerHTML = src
+    ? `<img src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px" /><div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);border-radius:6px;padding:3px 10px;font-size:.73rem;color:#fff;z-index:2">Click to change</div>`
+    : `<span class="dico">📸</span><span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>`;
+}
+
+/* ── HELPERS ── */
+function fmt(n) { return Number(n).toLocaleString('en-RW'); }
+function esc(s) { const d = document.createElement('div'); d.textContent = String(s||''); return d.innerHTML; }
+function toast(msg, ok = true) {
+  document.getElementById('t-ico').textContent = ok ? '✅' : '❌';
+  document.getElementById('t-msg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+function countUp(id, target) {
+  const el = document.getElementById(id); if (!el) return;
+  let c = 0; const step = Math.max(1, Math.ceil(target / 30));
+  const iv = setInterval(() => { c = Math.min(c + step, target); el.textContent = c; if (c >= target) clearInterval(iv); }, 40);
+}
+</script>
+</body>
+</html>
