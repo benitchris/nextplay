@@ -535,7 +535,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
    NextPlay250 v4 – clean store logic
    ══════════════════════════════════ */
 const WA   = '250781281517';
-const KEY  = 'np250v4';
+const KEY  = 'nextplay250_store'; // permanent — never changes
 const PASS = 'nextplay250';
 const SIZES = ['S','M','L','XL','XXL'];
 
@@ -558,10 +558,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
 /* ── DATA ── */
 function loadData() {
-  // Wipe old keys
-  ['np250v1','np250v2','np250v3'].forEach(k => localStorage.removeItem(k));
+  // Migrate from any old key without deleting user data
+  const OLD_KEYS = ['np250v1','np250v2','np250v3','np250v4'];
+  if (!localStorage.getItem(KEY)) {
+    for (const old of OLD_KEYS) {
+      const raw = localStorage.getItem(old);
+      if (raw) {
+        localStorage.setItem(KEY, raw); // copy data to new key
+        break;
+      }
+    }
+  }
   try { jerseys = JSON.parse(localStorage.getItem(KEY)) || []; } catch { jerseys = []; }
-  // Ensure all required fields exist
+  // Ensure all required fields exist on every jersey
   jerseys = jerseys.map(j => ({
     category:'football', sleeve:'Short Sleeves', kit:'Home', season:'2025/26', desc:'', badge:'', img:'',
     ...j
