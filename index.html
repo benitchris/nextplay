@@ -585,14 +585,29 @@ async function loadData() {
 }
 
 async function save() {
-  localStorage.setItem(KEY, JSON.stringify(jerseys)); // update cache
+  localStorage.setItem(KEY, JSON.stringify(jerseys)); // always cache locally first
   try {
-    await fetch(BIN_URL, {
+    const res = await fetch(BIN_URL, {
       method: 'PUT',
-      headers: { 'X-Master-Key': BIN_KEY, 'Content-Type': 'application/json' },
+      headers: {
+        'X-Master-Key': BIN_KEY,
+        'Content-Type': 'application/json',
+        'X-Bin-Versioning': 'false'
+      },
       body: JSON.stringify(jerseys)
     });
-  } catch { toast('Saved locally — sync failed, check connection ⚠️', false); }
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('JSONBin save error:', res.status, err);
+      toast(`Sync failed (${res.status}) — check console ⚠️`, false);
+      return false;
+    }
+    return true;
+  } catch(e) {
+    console.error('JSONBin network error:', e);
+    toast('No internet — saved locally only ⚠️', false);
+    return false;
+  }
 }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
@@ -838,12 +853,12 @@ async function saveJersey() {
   if (editId) {
     const i=jerseys.findIndex(j=>j.id===editId);
     if (i>-1) jerseys[i]={...jerseys[i],...entry};
-    await save();
-    toast('Jersey updated! ✅');
+    const ok = await save();
+    toast(ok ? 'Jersey updated! ✅ Synced live' : 'Updated locally only — sync failed ⚠️', ok);
   } else {
     jerseys.unshift({id:uid(),...entry});
-    await save();
-    toast('Jersey added! 🔥');
+    const ok = await save();
+    toast(ok ? 'Jersey added! 🔥 Live for all customers' : 'Added locally only — sync failed ⚠️', ok);
   }
   document.getElementById('j-save').textContent = 'Save Jersey';
   document.getElementById('j-save').disabled = false;
