@@ -230,6 +230,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -500,6 +501,10 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>
     </div>
     <input type="file" id="img-file" accept="image/*" style="display:none" />
+    <div class="fg" style="margin-top:-6px">
+      <label for="j-img-url">Or paste image URL (recommended for large photos)</label>
+      <input type="url" id="j-img-url" placeholder="https://i.imgur.com/example.jpg" />
+    </div>
     <div class="fg"><label for="j-club">Club / Team Name *</label><input type="text" id="j-club" placeholder="e.g. Manchester United, Barcelona…" /></div>
     <div class="fg-row">
       <div class="fg"><label for="j-season">Season *</label><input type="text" id="j-season" placeholder="e.g. 2026/27" /></div>
@@ -532,68 +537,87 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
 
 <script>
 /* ══════════════════════════════════
-   NextPlay250 v4 – clean store logic
+   NextPlay250 – JSONBin real-time
    ══════════════════════════════════ */
-const WA   = '250781281517';
-const KEY  = 'nextplay250_store'; // permanent — never changes
-const PASS = 'nextplay250';
-const SIZES = ['S','M','L','XL','XXL'];
+const WA      = '250781281517';
+const KEY     = 'nextplay250_store'; // local cache key
+const PASS    = 'nextplay250';
+const SIZES   = ['S','M','L','XL','XXL'];
+const BIN_ID  = '6ace767affd5d1605368429c';
+const BIN_KEY = '$2a$10$UzBLcT/g7Poe6F4ae9AAEOCExo1V2XgZmZDVzvqi3DvRlvempPxPm';
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-let jerseys  = [];
-let editId   = null;
-let imgB64   = null;
-
-// Order modal state
+let jerseys     = [];
+let editId      = null;
+let imgB64      = null;
 let orderJersey = null;
 let orderSize   = 'M';
 let orderQty    = 1;
 
 /* ── INIT ── */
-window.addEventListener('DOMContentLoaded', () => {
-  loadData();
-  renderShop();
+window.addEventListener('DOMContentLoaded', async () => {
+  renderLoading();
   bindAll();
+  await loadData();
+  renderShop();
   countUp('hero-count', jerseys.length);
 });
 
-/* ── DATA ── */
-function loadData() {
-  // Migrate from any old key without deleting user data
-  const OLD_KEYS = ['np250v1','np250v2','np250v3','np250v4'];
-  if (!localStorage.getItem(KEY)) {
-    for (const old of OLD_KEYS) {
-      const raw = localStorage.getItem(old);
-      if (raw) {
-        localStorage.setItem(KEY, raw); // copy data to new key
-        break;
-      }
-    }
+/* ── DATA (JSONBin real-time) ── */
+async function loadData() {
+  try {
+    const res = await fetch(`${BIN_URL}/latest`, {
+      headers: { 'X-Master-Key': BIN_KEY, 'X-Bin-Meta': 'false' }
+    });
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    jerseys = Array.isArray(data) ? data : (data.record || []);
+    localStorage.setItem(KEY, JSON.stringify(jerseys)); // cache locally
+  } catch {
+    // Offline fallback — use local cache
+    try { jerseys = JSON.parse(localStorage.getItem(KEY)) || []; } catch { jerseys = []; }
   }
-  try { jerseys = JSON.parse(localStorage.getItem(KEY)) || []; } catch { jerseys = []; }
-  // Ensure all required fields exist on every jersey
   jerseys = jerseys.map(j => ({
     category:'football', sleeve:'Short Sleeves', kit:'Home', season:'2025/26', desc:'', badge:'', img:'',
     ...j
   }));
-  if (!jerseys.length) seed();
+  if (!jerseys.length) await seed();
 }
-function save() { localStorage.setItem(KEY, JSON.stringify(jerseys)); }
-function uid()  { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
 
-function seed() {
+async function save() {
+  localStorage.setItem(KEY, JSON.stringify(jerseys)); // update cache
+  try {
+    await fetch(BIN_URL, {
+      method: 'PUT',
+      headers: { 'X-Master-Key': BIN_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(jerseys)
+    });
+  } catch { toast('Saved locally — sync failed, check connection ⚠️', false); }
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+async function seed() {
   jerseys = [{
     id: uid(), club:'Manchester United', season:'2026/27', kit:'Third',
     sleeve:'Long Sleeves', category:'football', badge:'hot',
-    img:'jerseys/man-utd-2026-third-ls.jpg', price:26000,
+    img:'https://benitchris.github.io/nextplay/jerseys/man-utd-2026-third-ls.jpg',
+    price:26000,
     desc:'Adidas Climacool breathable fabric. Off-white colourway with black three-stripe detailing and burgundy accents. Authentic badge and sponsor logos.'
   }];
-  save();
+  await save();
 }
 
-/* ── RENDER SHOP ── */
+/* ── RENDER ── */
+function renderLoading() {
+  document.getElementById('jerseys-grid').innerHTML =
+    `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--gray)">
+      <div style="font-size:2.5rem;margin-bottom:14px;display:inline-block;animation:spin-slow 1.2s linear infinite">⚽</div>
+      <p style="font-size:.95rem">Loading jerseys…</p>
+    </div>`;
+}
+
 function renderShop() {
-  // Safety: if jerseys is empty for any reason, reload from storage
-  if (!jerseys.length) loadData();
   const grid = document.getElementById('jerseys-grid');
   if (!jerseys.length) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--gray)"><div style="font-size:3rem;margin-bottom:12px">👕</div><h3 style="color:var(--white);margin-bottom:6px">No jerseys yet</h3><p>New drops coming soon — check back! 🔥</p></div>`;
@@ -779,7 +803,7 @@ function closeAdmin() { document.getElementById('admin-panel').classList.remove(
 /* ── JERSEY MODAL ── */
 function openJModal(j=null) {
   editId = j ? j.id : null;
-  imgB64 = j ? (j.img||null) : null;
+  imgB64 = null;
   document.getElementById('jm-title').textContent = j ? '✏️ Edit Jersey' : '➕ Add New Jersey';
   document.getElementById('j-club').value   = j ? j.club   : '';
   document.getElementById('j-season').value = j ? j.season : '';
@@ -789,12 +813,13 @@ function openJModal(j=null) {
   document.getElementById('j-desc').value   = j ? (j.desc||'') : '';
   document.getElementById('j-price').value  = j ? j.price  : '';
   document.getElementById('j-badge').value  = j ? (j.badge||'') : '';
+  document.getElementById('j-img-url').value = (j && j.img && !j.img.startsWith('data:')) ? j.img : '';
   document.getElementById('img-file').value = '';
-  setImgPreview(imgB64);
+  setImgPreview(j && j.img ? j.img : null);
   document.getElementById('jersey-ov').classList.add('open');
 }
 function closeJModal() { document.getElementById('jersey-ov').classList.remove('open'); editId=null; imgB64=null; }
-function saveJersey() {
+async function saveJersey() {
   const club=document.getElementById('j-club').value.trim();
   const season=document.getElementById('j-season').value.trim();
   const kit=document.getElementById('j-kit').value;
@@ -803,23 +828,32 @@ function saveJersey() {
   const desc=document.getElementById('j-desc').value.trim();
   const price=parseInt(document.getElementById('j-price').value,10);
   const badge=document.getElementById('j-badge').value;
+  const imgUrl=document.getElementById('j-img-url').value.trim();
   if (!club||!season||!price||isNaN(price)){toast('Fill in Club, Season and Price ⚠️',false);return;}
-  const entry={club,season,kit,sleeve,category:cat,desc,price,badge};
+  // Image priority: uploaded file > URL field > existing
+  const finalImg = imgB64 || imgUrl || (editId ? jerseys.find(j=>j.id===editId)?.img || '' : '');
+  const entry={club,season,kit,sleeve,category:cat,desc,price,badge,img:finalImg};
+  document.getElementById('j-save').textContent = 'Saving…';
+  document.getElementById('j-save').disabled = true;
   if (editId) {
     const i=jerseys.findIndex(j=>j.id===editId);
-    if (i>-1) jerseys[i]={...jerseys[i],...entry,img:imgB64!==null?imgB64:jerseys[i].img};
+    if (i>-1) jerseys[i]={...jerseys[i],...entry};
+    await save();
     toast('Jersey updated! ✅');
   } else {
-    jerseys.unshift({id:uid(),...entry,img:imgB64||''});
+    jerseys.unshift({id:uid(),...entry});
+    await save();
     toast('Jersey added! 🔥');
   }
-  save(); closeJModal(); renderAdmin();
+  document.getElementById('j-save').textContent = 'Save Jersey';
+  document.getElementById('j-save').disabled = false;
+  closeJModal(); renderAdmin();
 }
 function editJersey(id){const j=jerseys.find(j=>j.id===id);if(j)openJModal(j);}
-function delJersey(id){
+async function delJersey(id){
   if(!confirm('Delete this jersey? This cannot be undone.'))return;
   jerseys=jerseys.filter(j=>j.id!==id);
-  save();renderAdmin();toast('Jersey removed.');
+  await save(); renderAdmin(); toast('Jersey removed.');
 }
 
 /* ── IMAGE ── */
