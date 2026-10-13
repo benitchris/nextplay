@@ -543,6 +543,7 @@ let activeCat = 'all';
 
 /* ── INIT ── */
 window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('search-inp').value = ''; // always start clean
   loadData();
   renderShop();
   bindAll();
@@ -696,21 +697,16 @@ function bindAll() {
   document.getElementById('ham-btn').onclick = () => document.getElementById('mob-nav').classList.add('open');
   document.getElementById('mob-close').onclick = () => document.getElementById('mob-nav').classList.remove('open');
 
-  // Nav links that go to #shop — reset filter + re-render each time
-  document.querySelectorAll('a[href="#shop"]').forEach(a => {
+  // Every nav link resets the shop so filter/search never sticks
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', () => {
       document.getElementById('mob-nav').classList.remove('open');
       resetShop();
     });
   });
-  document.querySelectorAll('.mob-link').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('mob-nav').classList.remove('open'));
-  });
 
-  // Re-render shop whenever URL hash changes to #shop
-  window.addEventListener('hashchange', () => {
-    if (location.hash === '#shop') resetShop();
-  });
+  // Also reset on any hash change (browser back/forward)
+  window.addEventListener('hashchange', resetShop);
 
   document.getElementById('faq-link').addEventListener('click', e => { e.preventDefault(); openAuth(); });
   document.getElementById('auth-go').onclick = doAuth;
