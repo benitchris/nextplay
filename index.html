@@ -537,15 +537,15 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
 
 <script>
 /* ══════════════════════════════════
-   NextPlay250 – JSONBin real-time
+   NextPlay250 – Supabase real-time
    ══════════════════════════════════ */
 const WA      = '250781281517';
 const KEY     = 'nextplay250_store'; // local cache key
 const PASS    = 'nextplay250';
 const SIZES   = ['S','M','L','XL','XXL'];
-const BIN_ID  = '6ace767affd5d1605368429c';
-const BIN_KEY = '$2a$10$UzBLcT/g7Poe6F4ae9AAEOCExo1V2XgZmZDVzvqi3DvRlvempPxPm';
-const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const SB_URL  = 'https://rkeldzkgnoggfpasklwa.supabase.co';
+const SB_KEY  = 'sb_publishable_uAIn30e-tOJRVakJ5vwi2g_s3yn-2yF';
+const FLAG_RESCUE = 'nextplay250_rescue_done'; // one-time stranded-data rescue flag
 
 let jerseys     = [];
 let editId      = null;
@@ -563,51 +563,106 @@ window.addEventListener('DOMContentLoaded', async () => {
   countUp('hero-count', jerseys.length);
 });
 
-/* ── DATA (JSONBin real-time) ── */
-async function loadData() {
+/* ── DATA (Supabase real-time) ── */
+function sbHeaders(extra = {}) {
+  return { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, ...extra };
+}
+function toRow(j) { // app object → database row
+  return { id:j.id, club:j.club, season:j.season, kit:j.kit, sleeve:j.sleeve,
+           category:j.category, badge:j.badge, img:j.img, price:j.price, description:j.desc };
+}
+function rowToJersey(r) { // database row → app object
+  return { id:r.id, club:r.club, season:r.season, kit:r.kit, sleeve:r.sleeve,
+           category:r.category, badge:r.badge, img:r.img, price:r.price, desc:r.description };
+}
+function cacheLocally() { localStorage.setItem(KEY, JSON.stringify(jerseys)); }
+
+async function sbInsert(j) {
   try {
-    const res = await fetch(`${BIN_URL}/latest`, {
-      headers: { 'X-Master-Key': BIN_KEY, 'X-Bin-Meta': 'false' }
+    const res = await fetch(`${SB_URL}/rest/v1/jerseys`, {
+      method: 'POST',
+      headers: sbHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }),
+      body: JSON.stringify(toRow(j))
     });
-    if (!res.ok) throw new Error('fetch failed');
-    const data = await res.json();
-    jerseys = Array.isArray(data) ? data : (data.record || []);
-    localStorage.setItem(KEY, JSON.stringify(jerseys)); // cache locally
-  } catch {
-    // Offline fallback — use local cache
-    try { jerseys = JSON.parse(localStorage.getItem(KEY)) || []; } catch { jerseys = []; }
-  }
-  jerseys = jerseys.map(j => ({
-    category:'football', sleeve:'Short Sleeves', kit:'Home', season:'2025/26', desc:'', badge:'', img:'',
-    ...j
-  }));
-  if (!jerseys.length) await seed();
+    if (!res.ok) console.error('Supabase insert error:', res.status, await res.text());
+    return res.ok;
+  } catch(e) { console.error('Supabase insert error:', e); return false; }
+}
+async function sbUpdate(j) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/jerseys?id=eq.${encodeURIComponent(j.id)}`, {
+      method: 'PATCH',
+      headers: sbHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }),
+      body: JSON.stringify(toRow(j))
+    });
+    if (!res.ok) console.error('Supabase update error:', res.status, await res.text());
+    return res.ok;
+  } catch(e) { console.error('Supabase update error:', e); return false; }
+}
+async function sbDelete(id) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/jerseys?id=eq.${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: sbHeaders()
+    });
+    if (!res.ok) console.error('Supabase delete error:', res.status, await res.text());
+    return res.ok;
+  } catch(e) { console.error('Supabase delete error:', e); return false; }
+}
+async function sbUpsert(j) { // insert or overwrite by id — used to retry offline saves
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/jerseys`, {
+      method: 'POST',
+      headers: sbHeaders({ 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
+      body: JSON.stringify(toRow(j))
+    });
+    if (!res.ok) console.error('Supabase upsert error:', res.status, await res.text());
+    return res.ok;
+  } catch(e) { console.error('Supabase upsert error:', e); return false; }
 }
 
-async function save() {
-  localStorage.setItem(KEY, JSON.stringify(jerseys)); // always cache locally first
+async function loadData() {
+  let cache = [];
+  try { cache = JSON.parse(localStorage.getItem(KEY)) || []; } catch {}
   try {
-    const res = await fetch(BIN_URL, {
-      method: 'PUT',
-      headers: {
-        'X-Master-Key': BIN_KEY,
-        'Content-Type': 'application/json',
-        'X-Bin-Versioning': 'false'
-      },
-      body: JSON.stringify(jerseys)
+    const res = await fetch(`${SB_URL}/rest/v1/jerseys?select=*&order=created_at.desc`, {
+      headers: sbHeaders()
     });
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('JSONBin save error:', res.status, err);
-      toast(`Sync failed (${res.status}) — check console ⚠️`, false);
-      return false;
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const rows = await res.json();
+    jerseys = rows.map(rowToJersey);
+
+    // One-time rescue: push up jerseys stranded on this device by the old broken sync
+    if (!localStorage.getItem(FLAG_RESCUE)) {
+      localStorage.setItem(FLAG_RESCUE, '1');
+      const ids = new Set(jerseys.map(j => j.id));
+      const rescued = [];
+      for (const j of cache) {
+        if (j && j.id && !j._pending && !ids.has(j.id) && await sbInsert(j)) rescued.push(j);
+      }
+      if (rescued.length) {
+        jerseys = [...rescued, ...jerseys];
+        toast(`Recovered ${rescued.length} unsynced jersey(s) saved on this device 🔁`);
+      }
     }
-    return true;
-  } catch(e) {
-    console.error('JSONBin network error:', e);
-    toast('No internet — saved locally only ⚠️', false);
-    return false;
+
+    // Retry jerseys that were added or edited while offline
+    for (const j of cache) {
+      if (!j || !j._pending) continue;
+      delete j._pending;
+      if (await sbUpsert(j)) {
+        const i = jerseys.findIndex(x => x.id === j.id);
+        if (i > -1) jerseys[i] = j; else jerseys.unshift(j);
+      } else {
+        j._pending = true; // still offline — try again next visit
+      }
+    }
+    cacheLocally();
+  } catch (e) {
+    console.error('Supabase load error:', e);
+    jerseys = cache; // offline — fall back to local cache
   }
+  if (!jerseys.length) await seed();
 }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
@@ -620,7 +675,8 @@ async function seed() {
     price:26000,
     desc:'Adidas Climacool breathable fabric. Off-white colourway with black three-stripe detailing and burgundy accents. Authentic badge and sponsor logos.'
   }];
-  await save();
+  await sbInsert(jerseys[0]);
+  cacheLocally();
 }
 
 /* ── RENDER ── */
@@ -853,12 +909,17 @@ async function saveJersey() {
   if (editId) {
     const i=jerseys.findIndex(j=>j.id===editId);
     if (i>-1) jerseys[i]={...jerseys[i],...entry};
-    const ok = await save();
-    toast(ok ? 'Jersey updated! ✅ Synced live' : 'Updated locally only — sync failed ⚠️', ok);
+    cacheLocally();
+    const ok = await sbUpdate(jerseys[i]);
+    if (!ok) { jerseys[i]._pending = true; cacheLocally(); }
+    toast(ok ? 'Jersey updated! ✅ Synced live' : 'Updated locally only — will sync when back online ⚠️', ok);
   } else {
-    jerseys.unshift({id:uid(),...entry});
-    const ok = await save();
-    toast(ok ? 'Jersey added! 🔥 Live for all customers' : 'Added locally only — sync failed ⚠️', ok);
+    const j = {id:uid(),...entry};
+    jerseys.unshift(j);
+    cacheLocally();
+    const ok = await sbInsert(j);
+    if (!ok) { j._pending = true; cacheLocally(); }
+    toast(ok ? 'Jersey added! 🔥 Live for all customers' : 'Added locally only — will sync when back online ⚠️', ok);
   }
   document.getElementById('j-save').textContent = 'Save Jersey';
   document.getElementById('j-save').disabled = false;
@@ -867,8 +928,10 @@ async function saveJersey() {
 function editJersey(id){const j=jerseys.find(j=>j.id===id);if(j)openJModal(j);}
 async function delJersey(id){
   if(!confirm('Delete this jersey? This cannot be undone.'))return;
+  const ok = await sbDelete(id);
+  if (!ok) { toast('Delete failed — check your connection ⚠️', false); return; }
   jerseys=jerseys.filter(j=>j.id!==id);
-  await save(); renderAdmin(); toast('Jersey removed.');
+  cacheLocally(); renderAdmin(); toast('Jersey removed ✅');
 }
 
 /* ── IMAGE ── */
@@ -876,7 +939,22 @@ function handleImg(e){
   const f=e.target.files[0];if(!f)return;
   if(f.size>8*1024*1024){toast('Image too large (max 8MB)',false);return;}
   const r=new FileReader();
-  r.onload=ev=>{imgB64=ev.target.result;setImgPreview(imgB64);};
+  r.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      // Compress before storing: max 1400px long side, JPEG 82% — keeps photos
+      // sync-friendly so they show on every device (no more stripping base64)
+      const MAX=1400;
+      let w=img.width,h=img.height;
+      if(w>MAX||h>MAX){const s=Math.min(MAX/w,MAX/h);w=Math.round(w*s);h=Math.round(h*s);}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      imgB64=c.toDataURL('image/jpeg',0.82);
+      setImgPreview(imgB64);
+    };
+    img.onerror=()=>{ imgB64=ev.target.result; setImgPreview(imgB64); };
+    img.src=ev.target.result;
+  };
   r.readAsDataURL(f);
 }
 function setImgPreview(src){
