@@ -173,17 +173,19 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
 .order-name{font-size:1.15rem;font-weight:800;margin-bottom:4px}
 .order-kit-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
 .order-kit-meta span{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:var(--green);border-radius:6px;padding:3px 9px;font-size:.76rem;font-weight:600}
-/* Size picker */
+/* Size & qty picker */
 .picker-label{font-size:.8rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
-.size-grid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.size-btn{background:rgba(255,255,255,.055);border:1.5px solid var(--border);color:var(--gray);border-radius:10px;padding:8px 14px;font-family:inherit;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .22s;min-width:46px;text-align:center}
-.size-btn:hover{border-color:var(--blue-l);color:var(--white)}
-.size-btn.picked{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 4px 14px var(--glow-b)}
-/* Qty picker */
-.qty-row{display:flex;align-items:center;gap:14px;margin-bottom:22px}
-.qty-btn{width:40px;height:40px;background:rgba(255,255,255,.07);border:1.5px solid var(--border);color:var(--white);border-radius:10px;font-size:1.3rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s;font-family:inherit;font-weight:700}
-.qty-btn:hover{background:rgba(21,101,232,.25);border-color:var(--blue)}
-.qty-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;min-width:40px;text-align:center;background:linear-gradient(135deg,var(--blue-l),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.size-qty-list{display:flex;flex-direction:column;gap:9px;margin-bottom:22px}
+.sq-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:12px;padding:7px 13px;transition:all .22s}
+.sq-row.active{border-color:rgba(21,101,232,.65);background:rgba(21,101,232,.12)}
+.sq-size{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:1px;min-width:42px}
+.sq-sub{font-size:.8rem;font-weight:600;color:var(--gray);flex:1}
+.sq-row.active .sq-sub{color:var(--green)}
+.sq-stepper{display:flex;align-items:center;gap:10px;margin-left:auto}
+.sq-btn{width:30px;height:30px;background:rgba(255,255,255,.07);border:1.5px solid var(--border);color:var(--white);border-radius:8px;font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:inherit;font-weight:700}
+.sq-btn:hover{background:rgba(21,101,232,.25);border-color:var(--blue)}
+.sq-num{min-width:24px;text-align:center;font-weight:700;font-size:1rem}
+.sq-num.zero{color:var(--gray);opacity:.6}
 /* Total */
 .order-total-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:14px 18px;background:rgba(21,101,232,.08);border:1px solid rgba(21,101,232,.2);border-radius:12px}
 .order-total-label{font-size:.85rem;color:var(--gray);font-weight:600}
@@ -435,25 +437,11 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <div class="order-name" id="o-name"></div>
       <div class="order-kit-meta" id="o-meta"></div>
 
-      <div class="picker-label">Select Size</div>
-      <div class="size-grid" id="size-grid">
-        <button class="size-btn" data-size="S">S</button>
-        <button class="size-btn" data-size="M">M</button>
-        <button class="size-btn" data-size="L">L</button>
-        <button class="size-btn" data-size="XL">XL</button>
-        <button class="size-btn" data-size="XXL">XXL</button>
-      </div>
-
-      <div class="picker-label">Quantity</div>
-      <div class="qty-row">
-        <button class="qty-btn" id="qty-minus">−</button>
-        <div class="qty-num" id="qty-display">1</div>
-        <button class="qty-btn" id="qty-plus">+</button>
-        <span style="color:var(--gray);font-size:.82rem;margin-left:4px">pcs</span>
-      </div>
+      <div class="picker-label">Select Size & Quantity</div>
+      <div class="size-qty-list" id="size-qty-list"></div>
 
       <div class="order-total-row">
-        <span class="order-total-label">Total</span>
+        <span class="order-total-label" id="o-total-label">Total</span>
         <div class="order-total-price"><small>RWF </small><span id="o-total">0</span></div>
       </div>
 
@@ -566,8 +554,7 @@ let jerseys     = [];
 let editId      = null;
 let imgB64      = null;
 let orderJersey = null;
-let orderSize   = 'M';
-let orderQty    = 1;
+let orderQtys   = {S:0, M:1, L:0, XL:0, XXL:0}; // quantity per size
 
 /* ── INIT ── */
 window.addEventListener('DOMContentLoaded', async () => {
@@ -747,8 +734,7 @@ function thumbHTML(j) {
 function openOrder(id) {
   orderJersey = jerseys.find(j => j.id === id);
   if (!orderJersey) return;
-  orderQty  = 1;
-  orderSize = 'M';
+  orderQtys = {S:0, M:1, L:0, XL:0, XXL:0}; // start with M × 1
 
   // Image
   const wrap = document.getElementById('order-img-wrap');
@@ -761,11 +747,6 @@ function openOrder(id) {
   document.getElementById('o-meta').innerHTML =
     `<span>${esc(orderJersey.sleeve)}</span><span>${esc(orderJersey.kit)}</span>`;
 
-  // Reset size buttons
-  document.querySelectorAll('.size-btn').forEach(b => {
-    b.classList.toggle('picked', b.dataset.size === orderSize);
-  });
-
   updateOrderUI();
   document.getElementById('order-ov').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -776,13 +757,40 @@ function closeOrder() {
   document.body.style.overflow = '';
 }
 
+function renderSizeRows() {
+  document.getElementById('size-qty-list').innerHTML = SIZES.map(s => `
+    <div class="sq-row" id="sq-row-${s}">
+      <div class="sq-size">${s}</div>
+      <div class="sq-sub" id="sq-sub-${s}"></div>
+      <div class="sq-stepper">
+        <button class="sq-btn" type="button" data-size="${s}" data-act="minus" aria-label="Less ${s}">−</button>
+        <div class="sq-num" id="sq-num-${s}">0</div>
+        <button class="sq-btn" type="button" data-size="${s}" data-act="plus" aria-label="More ${s}">+</button>
+      </div>
+    </div>`).join('');
+}
+
+function orderTotalQty() { return SIZES.reduce((n, s) => n + (orderQtys[s] || 0), 0); }
+
 function updateOrderUI() {
-  document.getElementById('qty-display').textContent = orderQty;
-  document.getElementById('o-total').textContent = fmt(orderJersey.price * orderQty);
+  let totalQty = 0;
+  SIZES.forEach(s => {
+    const q = orderQtys[s] || 0;
+    totalQty += q;
+    document.getElementById('sq-num-'+s).textContent = q;
+    document.getElementById('sq-num-'+s).classList.toggle('zero', q === 0);
+    document.getElementById('sq-sub-'+s).textContent = q ? 'RWF ' + fmt(orderJersey.price * q) : '';
+    document.getElementById('sq-row-'+s).classList.toggle('active', q > 0);
+  });
+  document.getElementById('o-total-label').textContent = totalQty ? `Total · ${totalQty} pc${totalQty > 1 ? 's' : ''}` : 'Total';
+  document.getElementById('o-total').textContent = fmt(orderJersey.price * totalQty);
 }
 
 function buildOrderWA() {
-  const total = orderJersey.price * orderQty;
+  const totalQty = orderTotalQty();
+  const total = orderJersey.price * totalQty;
+  const sizeLines = SIZES.filter(s => orderQtys[s] > 0)
+    .map(s => `  • ${s} × ${orderQtys[s]} — ${fmt(orderJersey.price * orderQtys[s])} RWF`);
   const lines = [
     `Hi NextPlay250! 👋`,
     ``,
@@ -792,8 +800,11 @@ function buildOrderWA() {
     `📅 Season: ${orderJersey.season}`,
     `🏷 Kit: ${orderJersey.kit} Kit`,
     `👔 Sleeve: ${orderJersey.sleeve}`,
-    `📏 Size: *${orderSize}*`,
-    `🔢 Quantity: *${orderQty}*`,
+    ``,
+    `📏 Sizes:`,
+    ...sizeLines,
+    ``,
+    `🔢 Total Items: *${totalQty}*`,
     `💵 Unit Price: ${fmt(orderJersey.price)} RWF`,
     `💰 Total: *${fmt(total)} RWF*`,
     ``,
@@ -849,22 +860,19 @@ function bindAll() {
   document.getElementById('order-close-btn').onclick = closeOrder;
   document.getElementById('order-ov').addEventListener('click', e => { if (e.target===e.currentTarget) closeOrder(); });
 
-  document.getElementById('size-grid').addEventListener('click', e => {
-    const btn = e.target.closest('.size-btn'); if (!btn) return;
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('picked'));
-    btn.classList.add('picked');
-    orderSize = btn.dataset.size;
+  renderSizeRows();
+  document.getElementById('size-qty-list').addEventListener('click', e => {
+    const btn = e.target.closest('.sq-btn'); if (!btn) return;
+    const s = btn.dataset.size;
+    const q = orderQtys[s] || 0;
+    if (btn.dataset.act === 'plus')       orderQtys[s] = Math.min(q + 1, 20);
+    else if (q > 0)                       orderQtys[s] = q - 1;
+    updateOrderUI();
   });
-
-  document.getElementById('qty-minus').onclick = () => {
-    if (orderQty > 1) { orderQty--; updateOrderUI(); }
-  };
-  document.getElementById('qty-plus').onclick = () => {
-    if (orderQty < 20) { orderQty++; updateOrderUI(); }
-  };
 
   document.getElementById('confirm-order-btn').onclick = () => {
     if (!orderJersey) return;
+    if (!orderTotalQty()) { toast('Pick at least one size ⚠️', false); return; }
     window.open(buildOrderWA(), '_blank');
   };
 }
