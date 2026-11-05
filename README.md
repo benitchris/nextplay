@@ -2,7 +2,7 @@
 
 Rwanda's #1 Authentic Jersey Plug — online store built for GitHub Pages.
 
-**Live site:** https://benitchris.github.io/nextplay/
+**Live site:** https://nextplay250.com/
 
 ## Features
 - 🛍 Jersey store with WhatsApp ordering
