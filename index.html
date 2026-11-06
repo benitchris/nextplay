@@ -323,6 +323,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
         <span class="hbadge">💵 Pay on Delivery — Zero Upfront</span>
         <span class="hbadge">🇷🇼 Rwanda Nationwide</span>
         <span class="hbadge">🌍 Ships Worldwide</span>
+        <span class="hbadge">🚚 Free Delivery</span>
       </div>
       <div class="hero-btns">
         <a href="#shop" class="btn-primary">
@@ -487,6 +488,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <div class="astat"><div class="n" id="as-total">0</div><div class="l">Total Jerseys</div></div>
       <div class="astat"><div class="n" id="as-foot">0</div><div class="l">Football</div></div>
       <div class="astat"><div class="n" id="as-bball">0</div><div class="l">Basketball</div></div>
+      <div class="astat"><div class="n" id="as-boots">0</div><div class="l">Boots</div></div>
       <div class="astat"><div class="n" id="as-other">0</div><div class="l">Other Sports</div></div>
     </div>
     <div class="adm-sec-hdr">
@@ -526,7 +528,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
         <select id="j-sleeve"><option value="Short Sleeves">Short Sleeves</option><option value="Long Sleeves">Long Sleeves</option></select>
       </div>
       <div class="fg"><label for="j-cat">Category</label>
-        <select id="j-cat"><option value="football">Football ⚽</option><option value="basketball">Basketball 🏀</option><option value="rugby">Rugby 🏉</option><option value="other">Other</option></select>
+        <select id="j-cat"><option value="football">Football ⚽</option><option value="basketball">Basketball 🏀</option><option value="rugby">Rugby 🏉</option><option value="boots">Boots 🥾</option><option value="other">Other</option></select>
       </div>
     </div>
     <div class="fg"><label for="j-desc">Extra Description (optional)</label><textarea id="j-desc" placeholder="Sizes available, special features, condition, edition notes…"></textarea></div>
@@ -716,8 +718,8 @@ function jerseyCard(j) {
     <div class="jcard-img-wrap">${badge}${imgHtml}</div>
     <div class="jcard-body">
       <div class="jclub">${esc(j.club)}</div>
-      <div class="jname">${esc(j.season)} ${esc(j.kit)} Kit</div>
-      <div class="jmeta"><span>${esc(j.sleeve)}</span><span>${esc(j.kit)}</span></div>
+      <div class="jname">${esc(j.season)} ${esc(j.kit)} ${kitLabel(j)}</div>
+      <div class="jmeta">${[j.sleeve, j.kit].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</div>
       ${j.desc ? `<div class="jdesc">${esc(j.desc)}</div>` : ''}
       <div class="jcard-foot">
         <div class="jprice"><small>RWF </small>${fmt(j.price)}</div>
@@ -730,10 +732,13 @@ function jerseyCard(j) {
   </div>`;
 }
 
+function kitLabel(j) { return j.category === 'boots' ? 'Boots' : 'Kit'; }
+function catEmoji(j) { return {football:'👕', basketball:'🏀', rugby:'🏉', boots:'🥾', other:'🏅'}[j.category] || '👕'; }
+
 function thumbHTML(j) {
-  const c = {football:'#1565e8',basketball:'#f97316',rugby:'#22c55e',other:'#7c3aed'}[j.category]||'#3b82f6';
+  const c = {football:'#1565e8',basketball:'#f97316',rugby:'#22c55e',boots:'#e11d48',other:'#7c3aed'}[j.category]||'#3b82f6';
   const i = (j.club||'?').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
-  return `<div class="jcard-img" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:linear-gradient(135deg,#0d1525,${c}28)"><span style="font-size:2.8rem">👕</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:${c};letter-spacing:2px">${i}</span></div>`;
+  return `<div class="jcard-img" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:linear-gradient(135deg,#0d1525,${c}28)"><span style="font-size:2.8rem">${catEmoji(j)}</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:${c};letter-spacing:2px">${i}</span></div>`;
 }
 
 /* ── ORDER MODAL ── */
@@ -745,13 +750,13 @@ function openOrder(id) {
   // Image
   const wrap = document.getElementById('order-img-wrap');
   wrap.innerHTML = orderJersey.img
-    ? `<img class="order-img" src="${orderJersey.img}" alt="${esc(orderJersey.club)}" onerror="this.outerHTML='<div class=order-img-placeholder>👕</div>'" />`
-    : `<div class="order-img-placeholder">👕</div>`;
+    ? `<img class="order-img" src="${orderJersey.img}" alt="${esc(orderJersey.club)}" onerror="this.outerHTML='<div class=order-img-placeholder>${catEmoji(orderJersey)}</div>'" />`
+    : `<div class="order-img-placeholder">${catEmoji(orderJersey)}</div>`;
 
   document.getElementById('o-club').textContent = orderJersey.club;
-  document.getElementById('o-name').textContent = `${orderJersey.season} ${orderJersey.kit} Kit`;
+  document.getElementById('o-name').textContent = `${orderJersey.season} ${orderJersey.kit} ${kitLabel(orderJersey)}`;
   document.getElementById('o-meta').innerHTML =
-    `<span>${esc(orderJersey.sleeve)}</span><span>${esc(orderJersey.kit)}</span>`;
+    [orderJersey.sleeve, orderJersey.kit].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('');
 
   updateOrderUI();
   document.getElementById('order-ov').classList.add('open');
@@ -802,10 +807,10 @@ function buildOrderWA() {
     ``,
     `I'd like to order:`,
     ``,
-    `👕 *${orderJersey.club}*`,
+    `${catEmoji(orderJersey)} *${orderJersey.club}*`,
     `📅 Season: ${orderJersey.season}`,
-    `🏷 Kit: ${orderJersey.kit} Kit`,
-    `👔 Sleeve: ${orderJersey.sleeve}`,
+    `🏷 ${kitLabel(orderJersey)}: ${orderJersey.kit}${orderJersey.category === 'boots' ? '' : ' Kit'}`,
+    ...(orderJersey.sleeve ? [`👔 Sleeve: ${orderJersey.sleeve}`] : []),
     ``,
     `📏 Sizes:`,
     ...sizeLines,
@@ -813,6 +818,7 @@ function buildOrderWA() {
     `🔢 Total Items: *${totalQty}*`,
     `💵 Unit Price: ${fmt(orderJersey.price)} RWF`,
     `💰 Total: *${fmt(total)} RWF*`,
+    `🚚 Delivery: FREE ✅`,
     ``,
     `Please confirm availability & delivery details. Thank you! 🙏`
   ];
@@ -821,19 +827,20 @@ function buildOrderWA() {
 
 /* ── ADMIN RENDER ── */
 function renderAdmin() {
-  const cats = {football:0,basketball:0,rugby:0,other:0};
+  const cats = {football:0,basketball:0,rugby:0,boots:0,other:0};
   jerseys.forEach(j => { if (cats[j.category]!==undefined) cats[j.category]++; else cats.other++; });
   document.getElementById('as-total').textContent = jerseys.length;
   document.getElementById('as-foot').textContent  = cats.football;
   document.getElementById('as-bball').textContent = cats.basketball;
+  document.getElementById('as-boots').textContent = cats.boots;
   document.getElementById('as-other').textContent = cats.rugby + cats.other;
   const g = document.getElementById('adm-grid');
   if (!jerseys.length) { g.innerHTML=`<p style="color:var(--gray);padding:28px;grid-column:1/-1;text-align:center">No jerseys yet. Add your first one! 👆</p>`; return; }
   g.innerHTML = jerseys.map(j => {
     const img = j.img
       ? `<img src="${j.img}" alt="${esc(j.club)}" onerror="this.style.display='none'" />`
-      : `<div style="width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:#111926;font-size:2.5rem">👕</div>`;
-    return `<div class="adm-card">${img}<div class="adm-card-b"><div class="ac-club">${esc(j.club)}</div><h3>${esc(j.season)} ${esc(j.kit)} Kit</h3><div class="ac-meta">${esc(j.sleeve)}</div><div class="ac-price">RWF ${fmt(j.price)}</div><div class="adm-acts"><button class="btn-edit" onclick="editJersey('${j.id}')">✏️ Edit</button><button class="btn-del" onclick="delJersey('${j.id}')">🗑 Delete</button></div></div></div>`;
+      : `<div style="width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:#111926;font-size:2.5rem">${catEmoji(j)}</div>`;
+    return `<div class="adm-card">${img}<div class="adm-card-b"><div class="ac-club">${esc(j.club)}</div><h3>${esc(j.season)} ${esc(j.kit)} ${kitLabel(j)}</h3><div class="ac-meta">${[j.sleeve].filter(Boolean).map(x => esc(x)).join(' · ')}</div><div class="ac-price">RWF ${fmt(j.price)}</div><div class="adm-acts"><button class="btn-edit" onclick="editJersey('${j.id}')">✏️ Edit</button><button class="btn-del" onclick="delJersey('${j.id}')">🗑 Delete</button></div></div></div>`;
   }).join('');
 }
 
