@@ -492,10 +492,10 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <div class="astat"><div class="n" id="as-other">0</div><div class="l">Other Sports</div></div>
     </div>
     <div class="adm-sec-hdr">
-      <h2>📦 Manage Jerseys</h2>
+      <h2>📦 Manage Products</h2>
       <button class="btn-add" id="adm-add-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add Jersey
+        Add Product
       </button>
     </div>
     <div class="adm-grid" id="adm-grid"></div>
@@ -509,22 +509,23 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
     <p id="jm-sub">Fill in all details — they appear on the store card and WhatsApp order.</p>
     <div class="img-drop" id="img-drop">
       <span class="dico">📸</span>
-      <span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>
+      <span class="dhint">Click to upload product photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>
     </div>
     <input type="file" id="img-file" accept="image/*" style="display:none" />
     <div class="fg" style="margin-top:-6px">
       <label for="j-img-url">Or paste image URL (recommended for large photos)</label>
       <input type="url" id="j-img-url" placeholder="https://i.imgur.com/example.jpg" />
     </div>
-    <div class="fg"><label for="j-club">Club / Team Name *</label><input type="text" id="j-club" placeholder="e.g. Manchester United, Barcelona…" /></div>
+    <div class="fg"><label for="j-club" id="l-club">Club / Team Name *</label><input type="text" id="j-club" placeholder="e.g. Manchester United, Barcelona…" /></div>
     <div class="fg-row">
       <div class="fg"><label for="j-season">Season *</label><input type="text" id="j-season" placeholder="e.g. 2026/27" /></div>
-      <div class="fg"><label for="j-kit">Kit Type *</label>
+      <div class="fg"><label for="j-kit" id="l-kit">Kit Type *</label>
         <select id="j-kit"><option value="Home">Home</option><option value="Away">Away</option><option value="Third">Third</option><option value="Fourth">Fourth</option><option value="Goalkeeper">Goalkeeper</option><option value="Training">Training</option></select>
+        <input type="text" id="j-surface" placeholder="FG / AG / SG / Turf" style="display:none" />
       </div>
     </div>
     <div class="fg-row">
-      <div class="fg"><label for="j-sleeve">Sleeve *</label>
+      <div class="fg" id="fg-sleeve"><label for="j-sleeve">Sleeve *</label>
         <select id="j-sleeve"><option value="Short Sleeves">Short Sleeves</option><option value="Long Sleeves">Long Sleeves</option></select>
       </div>
       <div class="fg"><label for="j-cat">Category</label>
@@ -537,7 +538,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <select id="j-badge"><option value="">None</option><option value="new">🟢 New Arrival</option><option value="hot">🔴 Hot Pick</option></select>
     </div>
     <div class="macts">
-      <button class="mbtn" id="j-save">Save Jersey</button>
+      <button class="mbtn" id="j-save">Save Product</button>
       <button class="mcanc" id="j-cancel">Cancel</button>
     </div>
   </div>
@@ -865,6 +866,7 @@ function bindAll() {
   document.getElementById('adm-add-btn').onclick = () => openJModal();
   document.getElementById('j-save').onclick = saveJersey;
   document.getElementById('j-cancel').onclick = closeJModal;
+  document.getElementById('j-cat').addEventListener('change', applyCatUI);
   document.getElementById('jersey-ov').addEventListener('click', e => { if (e.target===e.currentTarget) closeJModal(); });
   document.getElementById('img-drop').onclick = () => document.getElementById('img-file').click();
   document.getElementById('img-file').addEventListener('change', handleImg);
@@ -908,10 +910,20 @@ function openAdmin()  { renderAdmin(); document.getElementById('admin-panel').cl
 function closeAdmin() { document.getElementById('admin-panel').classList.remove('open'); document.body.style.overflow=''; renderShop(); countUp('hero-count',jerseys.length); }
 
 /* ── JERSEY MODAL ── */
+function applyCatUI() {
+  const boots = document.getElementById('j-cat').value === 'boots';
+  document.getElementById('l-club').textContent = boots ? 'Brand / Model *' : 'Club / Team Name *';
+  document.getElementById('j-club').placeholder = boots ? 'e.g. Nike Mercurial Superfly, adidas Predator…' : 'e.g. Manchester United, Barcelona…';
+  document.getElementById('l-kit').textContent = boots ? 'Surface *' : 'Kit Type *';
+  document.getElementById('j-kit').style.display = boots ? 'none' : '';
+  document.getElementById('j-surface').style.display = boots ? '' : 'none';
+  document.getElementById('fg-sleeve').style.display = boots ? 'none' : '';
+}
+
 function openJModal(j=null) {
   editId = j ? j.id : null;
   imgB64 = null;
-  document.getElementById('jm-title').textContent = j ? '✏️ Edit Jersey' : '➕ Add New Jersey';
+  document.getElementById('jm-title').textContent = j ? '✏️ Edit Product' : '➕ Add New Product';
   document.getElementById('j-club').value   = j ? j.club   : '';
   document.getElementById('j-season').value = j ? j.season : '';
   document.getElementById('j-kit').value    = j ? j.kit    : 'Home';
@@ -921,22 +933,25 @@ function openJModal(j=null) {
   document.getElementById('j-price').value  = j ? j.price  : '';
   document.getElementById('j-badge').value  = j ? (j.badge||'') : '';
   document.getElementById('j-img-url').value = (j && j.img && !j.img.startsWith('data:')) ? j.img : '';
+  document.getElementById('j-surface').value = (j && j.category === 'boots') ? (j.kit || '') : '';
   document.getElementById('img-file').value = '';
   setImgPreview(j && j.img ? j.img : null);
+  applyCatUI();
   document.getElementById('jersey-ov').classList.add('open');
 }
 function closeJModal() { document.getElementById('jersey-ov').classList.remove('open'); editId=null; imgB64=null; }
 async function saveJersey() {
+  const cat=document.getElementById('j-cat').value;
+  const boots = cat === 'boots';
   const club=document.getElementById('j-club').value.trim();
   const season=document.getElementById('j-season').value.trim();
-  const kit=document.getElementById('j-kit').value;
-  const sleeve=document.getElementById('j-sleeve').value;
-  const cat=document.getElementById('j-cat').value;
+  const kit = boots ? document.getElementById('j-surface').value.trim() : document.getElementById('j-kit').value;
+  const sleeve = boots ? '' : document.getElementById('j-sleeve').value;
   const desc=document.getElementById('j-desc').value.trim();
   const price=parseInt(document.getElementById('j-price').value,10);
   const badge=document.getElementById('j-badge').value;
   const imgUrl=document.getElementById('j-img-url').value.trim();
-  if (!club||!season||!price||isNaN(price)){toast('Fill in Club, Season and Price ⚠️',false);return;}
+  if (!club||!season||!kit||!price||isNaN(price)){toast(boots ? 'Fill in Brand, Season, Surface and Price ⚠️' : 'Fill in Club, Season and Price ⚠️',false);return;}
   // Image priority: uploaded file > URL field > existing
   const finalImg = imgB64 || imgUrl || (editId ? jerseys.find(j=>j.id===editId)?.img || '' : '');
   const entry={club,season,kit,sleeve,category:cat,desc,price,badge,img:finalImg};
@@ -955,9 +970,9 @@ async function saveJersey() {
     cacheLocally();
     const ok = await sbInsert(j);
     if (!ok) { j._pending = true; cacheLocally(); }
-    toast(ok ? 'Jersey added! 🔥 Live for all customers' : 'Added locally only — will sync when back online ⚠️', ok);
+    toast(ok ? (boots ? 'Boots added! 🥾🔥 Live for all customers' : 'Jersey added! 🔥 Live for all customers') : 'Added locally only — will sync when back online ⚠️', ok);
   }
-  document.getElementById('j-save').textContent = 'Save Jersey';
+  document.getElementById('j-save').textContent = 'Save Product';
   document.getElementById('j-save').disabled = false;
   closeJModal(); renderAdmin();
 }
@@ -997,7 +1012,7 @@ function setImgPreview(src){
   const d=document.getElementById('img-drop');
   d.innerHTML=src
     ?`<img src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px" /><div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);border-radius:6px;padding:3px 10px;font-size:.73rem;color:#fff;z-index:2">Click to change</div>`
-    :`<span class="dico">📸</span><span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>`;
+    :`<span class="dico">📸</span><span class="dhint">Click to upload product photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>`;
 }
 
 /* ── HELPERS ── */
