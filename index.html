@@ -492,10 +492,10 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <div class="astat"><div class="n" id="as-other">0</div><div class="l">Other Sports</div></div>
     </div>
     <div class="adm-sec-hdr">
-      <h2>📦 Manage Products</h2>
+      <h2>📦 Manage Jerseys</h2>
       <button class="btn-add" id="adm-add-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add Product
+        Add Jersey
       </button>
     </div>
     <div class="adm-grid" id="adm-grid"></div>
@@ -509,7 +509,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
     <p id="jm-sub">Fill in all details — they appear on the store card and WhatsApp order.</p>
     <div class="img-drop" id="img-drop">
       <span class="dico">📸</span>
-      <span class="dhint">Click to upload product photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>
+      <span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>
     </div>
     <input type="file" id="img-file" accept="image/*" style="display:none" />
     <div class="fg" style="margin-top:-6px">
@@ -538,7 +538,7 @@ footer{background:#07090f;border-top:1px solid var(--border);padding:50px 5% 28p
       <select id="j-badge"><option value="">None</option><option value="new">🟢 New Arrival</option><option value="hot">🔴 Hot Pick</option></select>
     </div>
     <div class="macts">
-      <button class="mbtn" id="j-save">Save Product</button>
+      <button class="mbtn" id="j-save">Save Jersey</button>
       <button class="mcanc" id="j-cancel">Cancel</button>
     </div>
   </div>
@@ -923,7 +923,7 @@ function applyCatUI() {
 function openJModal(j=null) {
   editId = j ? j.id : null;
   imgB64 = null;
-  document.getElementById('jm-title').textContent = j ? '✏️ Edit Product' : '➕ Add New Product';
+  document.getElementById('jm-title').textContent = j ? '✏️ Edit Jersey' : '➕ Add New Jersey';
   document.getElementById('j-club').value   = j ? j.club   : '';
   document.getElementById('j-season').value = j ? j.season : '';
   document.getElementById('j-kit').value    = j ? j.kit    : 'Home';
@@ -972,7 +972,7 @@ async function saveJersey() {
     if (!ok) { j._pending = true; cacheLocally(); }
     toast(ok ? (boots ? 'Boots added! 🥾🔥 Live for all customers' : 'Jersey added! 🔥 Live for all customers') : 'Added locally only — will sync when back online ⚠️', ok);
   }
-  document.getElementById('j-save').textContent = 'Save Product';
+  document.getElementById('j-save').textContent = 'Save Jersey';
   document.getElementById('j-save').disabled = false;
   closeJModal(); renderAdmin();
 }
@@ -1012,7 +1012,7 @@ function setImgPreview(src){
   const d=document.getElementById('img-drop');
   d.innerHTML=src
     ?`<img src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px" /><div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);border-radius:6px;padding:3px 10px;font-size:.73rem;color:#fff;z-index:2">Click to change</div>`
-    :`<span class="dico">📸</span><span class="dhint">Click to upload product photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>`;
+    :`<span class="dico">📸</span><span class="dhint">Click to upload jersey photo<br><small style="opacity:.55">JPG · PNG · WebP — recommended 4:3</small></span>`;
 }
 
 /* ── HELPERS ── */
